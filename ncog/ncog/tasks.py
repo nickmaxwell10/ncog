@@ -14,7 +14,23 @@ db = Connection(
 if getattr(settings, "MONGODB_USERNAME", None):
     db.authenticate(getattr(settings, "MONGODB_USERNAME", None), getattr(settings, "MONGODB_PASSWORD", None))
 
-# @shared_task
+
+# def getUserInbox(user):
+# 	access_token = user.access_token
+# 	facebook = OpenFacebook(access_token)
+
+# 	nextConversationUrl = 'me/inbox'
+# 	numMessages = 1
+# 	while(numMessages > 0):
+# 		numMessages = 0
+# 		conversations = facebook.get(nextConversationUrl)
+# 		for conversation in conversations:
+# 			for message in conversation.messages:
+# 				numMessages++
+# 		nextConversationUrl = conversations.pager.next
+
+
+@shared_task
 def getUserInbox(user):
 	access_token = user.access_token
 	facebook = OpenFacebook(access_token)
@@ -22,22 +38,12 @@ def getUserInbox(user):
 
 	for conversation in inbox['data']:
 		if 'comments' in conversation and 'data' in conversation['comments']:
-			if 'to' in conversation and 'data' in conversation['to']:
-				to = conversation['to']['data']
-				if len(to) == 2:
-					other_id = None
-					for person in to:
-						if 'id' in person:
-							personId = person['id']
-							if personId != user.facebook.id:
-
 					for comment in conversation['comments']['data']:
 						if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
 							message = {
 								"user_id": user.facebook_id,
 								"from_id": comment['from']['id'],
-								"to_id": 
-								"message_id": comment['id']
+								"message_id": comment['id'],
 								"message": comment['message'],
 								"date": comment['created_time']
 							}
