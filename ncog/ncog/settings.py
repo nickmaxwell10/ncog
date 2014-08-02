@@ -83,6 +83,13 @@ DATABASES = {
     }
 }
 
+# PyMongo config
+MONGODB_HOST = '162.243.174.156'
+MONGODB_PORT = 27017
+MONGODB_DATABASE = "f1fppjye6f1hftlr"
+MONGODB_USERNAME = "uccmfao1bs95wflm"
+MONGODB_PASSWORD = "joNGDcHtQzsLsFild2qjoYamL"
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
