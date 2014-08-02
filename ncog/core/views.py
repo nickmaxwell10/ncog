@@ -3,6 +3,8 @@ from django.template import RequestContext
 from open_facebook import OpenFacebook
 import json
 
+from ncog.tasks import getUserInbox
+
 # Create your views here.
 def login(request):
     context = RequestContext(request)
@@ -12,11 +14,9 @@ def login(request):
 def home(request):
     context = RequestContext(request)
 
-    access_token = request.user.access_token
+    # getUserInbox.delay(request.user.id, request.user.access_token)
+    inbox = getUserInbox(request.user)
 
-    facebook = OpenFacebook(access_token)
-    inbox = facebook.get('/me/inbox')
-    
     context['inbox'] = inbox
 
     return render_to_response('core/home.html', context)
