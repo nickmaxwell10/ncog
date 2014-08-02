@@ -4,12 +4,12 @@ from open_facebook import OpenFacebook
 import json
 
 # Create your views here.
-def home(request):
+def login(request):
     context = RequestContext(request)
 
-    return render_to_response('core/home.html', context)
+    return render_to_response('core/login.html', context)
 
-def blah(request):
+def home(request):
     context = RequestContext(request)
 
     access_token = request.user.access_token
@@ -19,4 +19,4 @@ def blah(request):
     
     context['inbox'] = inbox
 
-    return render_to_response('core/blah.html', context)
+    return render_to_response('core/home.html', context)

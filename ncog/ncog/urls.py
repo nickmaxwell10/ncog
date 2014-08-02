@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', 'core.views.login', name='login'),
-    url(r'^blah/$', 'core.views.blah', name='blah'),
+    url(r'^home/$', 'core.views.home', name='home'),
 
     #Facebook
     (r'^facebook/', include('django_facebook.urls')),
