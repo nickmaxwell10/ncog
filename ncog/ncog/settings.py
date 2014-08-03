@@ -113,5 +113,5 @@ STATIC_URL = '/static/'
 FACEBOOK_APP_ID = '281620288706422'
 FACEBOOK_APP_SECRET = '395ab4f36f78b280f0692b744d9bb36a'
 
-FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_website', 'read_mailbox']
+FACEBOOK_DEFAULT_SCOPE = ['email', 'user_friends','user_about_me', 'user_birthday', 'user_website', 'read_mailbox', 'user_likes']
 

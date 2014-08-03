@@ -1,5 +1,17 @@
 <html>
 	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		 <script type="text/javascript"> 
+		 	$(function(){
+		 		
+		 	});
+		 	
+		 	function getFriends() {
+		 		$.getJSON("{% url 'friends'%}", function(data) {
+					alert(JSON.stringify(data));
+		        }); 
+		 	}
+		 </script>
 	</head>
 	<body>
 		<br/><br/>
