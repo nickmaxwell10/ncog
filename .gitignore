@@ -28,3 +28,5 @@ ncog/db.sqlite3
 .vagrant/machines/default/virtualbox/id
 
 ncog/db.sqlite3
+
+ncog/pip-log.txt
