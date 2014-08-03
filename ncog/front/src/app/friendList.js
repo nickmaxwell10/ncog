@@ -21,18 +21,29 @@ var friendList = (function () {
   function fetch () {
 
     $.ajax({
-        url: '/getFriends',
+        url: '/friends',
         type: 'GET',
         success: function(data){ 
+
           alert('success!');
 
-          console.log(JSON.parse(data));
+          data = JSON.parse(data);
 
-          friendsList = JSON.parse(data);
-          
-          render();
+          console.log(data);
 
-          clearInterval(pollFriends);
+          if (data.status === 'complete') {
+
+            friendsList = data.friends;
+
+            for (var i in friendsList) {
+              friendsList[i].picture = 'http://graph.facebook.com/' + friendsList[i].id + '/picture?type=square';
+            };
+
+            render();
+
+            clearInterval(pollFriends);
+
+          }          
         },
         error: function(data) {
 
@@ -41,6 +52,7 @@ var friendList = (function () {
           if (totalCalls > 5) {
             friendsList = fakeFriends;
             clearInterval(pollFriends);
+            pollFriends = setInterval(fetch, 2000);
             render();            
           }
 

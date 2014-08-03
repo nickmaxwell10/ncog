@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <title>nCog - relationship analytics</title>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./app.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="{% static "js/app.js" %}"></script>
   </head>
   <body>
     <header class="top">
@@ -64,47 +65,28 @@
     </div>
   </body>
 </html>
-
-<html>
-	<head>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		 <script type="text/javascript"> 
-		 	$(function(){
-		 		
-		 	});
-
-		 	function getFriends() {
-		 		$.getJSON("{% url 'friends'%}", function(data) {
-					console.log(JSON.stringify(data));
-		        }); 
-		 	}
-		 </script>
-	</head>
-	<body>
-		<p> Threads = </p>
+<!-- <p> Threads = </p>
 
 
-		{% for thread in threads %}
-			<p>{{thread}}<p>
+{% for thread in threads %}
+  <p>{{thread}}<p>
 
-				<div style="font-size:12px;">{{comment.created_time}}</div>
-				<br/>
-			{% endfor %}
+    <div style="font-size:12px;">{{comment.created_time}}</div>
+    <br/>
+  {% endfor %}
 
 
 
 
 
-		<br/><br/>
-		{% for thread in inbox.data %}
-			{% for comment in thread.comments.data %}
-				{{comment.from.name}}:&nbsp;{{comment.message}}
-				<div style="font-size:12px;">{{comment.created_time}}</div>
-				<br/>
-			{% endfor %}
-			<br/>
-			<br/>
-			<br/>
-		{% endfor %}
-	</body>
-</html>
+<br/><br/>
+{% for thread in inbox.data %}
+  {% for comment in thread.comments.data %}
+    {{comment.from.name}}:&nbsp;{{comment.message}}
+    <div style="font-size:12px;">{{comment.created_time}}</div>
+    <br/>
+  {% endfor %}
+  <br/>
+  <br/>
+  <br/>
+{% endfor %} -->
