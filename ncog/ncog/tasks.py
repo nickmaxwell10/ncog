@@ -42,12 +42,6 @@ def getUserInbox(user):
 	return(breadthlooper(inbox,user, facebook) , breadthlooper(inbox2,user, facebook))
 
 def breadthlooper( inbox, user, facebook):
-	
-	
-
-	
-	to_return = ""
-	user_friends = []
 	for conversation in inbox['data']:
 		if 'comments' in conversation and 'data' in conversation['comments']:
 					thread_participants = conversation['to']['data']
@@ -62,9 +56,14 @@ def breadthlooper( inbox, user, facebook):
 										{"user_id": user.facebook_id},
 										{"$addToSet" : {"friends" : {"user_id": other_id, "name": participant['name']}}}
 										)
+									db.user_friends.update(
+										{"user_id": user.facebook_id},
+										{"$set": { "status": "processing" }}
+										)
 								else:
 										db.user_friends.insert({
 											"user_id": user.facebook_id,
+											"status": "processing",
 											"friends" : [
 												{
 												"user_id": other_id, 
@@ -117,16 +116,24 @@ def breadthlooper( inbox, user, facebook):
 							#depthlooper(inbox, user, facebook, url)
 						
 
-
+	db.user_friends.update(
+							{"user_id": user.facebook_id},
+							{"$set": { "status": "complete" }}
+						)
 	return inbox
 
 def getFriends(user_id):
 	user_friend = db.user_friends.find_one({"user_id":user_id})
-	friends = []
 	if user_friend:
-		friends = user_friend['friends']
-
-	return friends
+		if user_friend['status'] == "complete":
+			return {
+						"status": "complete",
+						"friends": user_friend['friends']
+				   }
+		else:
+			return "processing"
+	else:
+		return "processing"
 
 
 
