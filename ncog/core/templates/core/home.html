@@ -10,7 +10,7 @@
   </head>
   <body>
     <header class="top">
-      <h2>nCog <span class="right">Hi John Smith! <a href="">Log out</a></span></h2>
+      <h2>nCog <span class="right">Hi {{user}} <a href="">Log out</a></span></h2>
       <div class="clear"></div>
       <hr>
     </header>
@@ -18,29 +18,35 @@
       <div>
         <Br /><Br />
         <form id="signUp" class="center">
-          <h2 class="lightText"> Let's hook you up.</h2>
-          <h3> Who are you and who are you into?</h3>
+          <h2 class="lightText"> Who are you and <strong>who's</strong> into you?</h2>
+         
           <br />
           I am a 
           <select class="large" name="orientation">
-          	<option>Dude</option>
-            <option>Lady</option>
+
+          	<option {% if gender == 'm' %} selected {% endif %}>Dude</option>
+          	
+            <option {% if gender == 'f' %} selected {% endif %}>Lady</option>
+           
             <option>Other</option>
             
           </select>
           looking for a: &nbsp;
           <select class="large" name="gender">
-          	<option>Lady</option>
-          	<option>Dude</option>
+          	<option {% if gender == 'm' %} selected {% endif %}>Lady</option>
+          
+          	<option {% if gender == 'f' %} selected {% endif %}>Dude</option>
+          	
            <option>Other</option>
             
           </select>
+         
           <a class="submit button" href="#">Zoom!</a>
           <br /><br />
         </form>
-        <p class="center">Who you in the market for good-looking?</p>
+        <p class="center">We look at your relationships<br> so you can make them better</p>
         <Br /><hr>
-        <h5 class="lock">This information is not shared with anyone <a href="/terms" class="right">Terms of use</a></h5>     
+        <h5 class="lock">Totally Anonymously. Always. <a href="/terms" class="right">Terms of use</a></h5>     
       </div>
     </div>
     <div>
