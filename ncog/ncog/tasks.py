@@ -132,6 +132,14 @@ def getFriends(user_id):
 	else:
 		return "processing"
 
+def getScores(user_id):
+	user_scores = db.conversation_score.find({"user_id":user_id})
+	scores = []
+	for score in user_scores:
+		scores.append(score)
+
+	return scores
+
 
 def scoreThreadMe(user_id, other_id):
 	#pulls messages from thread of other person to user
@@ -159,7 +167,7 @@ def scoreThreadYou(user_id, other_id):
 		to_return.append(message)
 
 	print "SCORE THREAD ME: "  + str(len(to_return)
-		
+
 	return(to_return)
 
 def combinedThread(user_id, other_id):

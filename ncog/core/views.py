@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from open_facebook import OpenFacebook
 import json
 
-from ncog.tasks import getUserInbox, getFriends
+from ncog.tasks import getUserInbox, getFriends, getScores
 # Create your views here.
 def login(request):
     context = RequestContext(request)
@@ -25,5 +25,14 @@ def friends(request):
     friends = getFriends(request.user.facebook_id)
 
     data = json.dumps(friends)
+
+    return HttpResponse(data, mimetype='application/json')
+
+def scores(request):
+    context = RequestContext(request)
+
+    scores = getScores(request.user.facebook_id)
+
+    data = json.dumps(scores)
 
     return HttpResponse(data, mimetype='application/json')
