@@ -6,9 +6,9 @@ var friendList = (function () {
 
     $('.friendList').on('click', 'li', function(){
 
-     var friend = getByID($(this).attr('data-id'));
+     var friendInfo = getByID($(this).attr('data-id'));
     
-      friend.render(friend);
+      friend.render(friendInfo);
 
       slider.next();
 
@@ -27,13 +27,14 @@ var friendList = (function () {
         type: 'GET',
         success: function(data){ 
 
+
           if (data.status === 'complete') {
 
-            console.log('complete!');
+            console.log('got friends!');
+            console.log(data);
 
             friendsList = data.friends;
 
-            console.log(data);
 
             for (var i in friendsList) {
               friendsList[i].score = friendsList[i].score || ''; 
@@ -46,7 +47,7 @@ var friendList = (function () {
 
             getScores();
 
-            var pollScores = setInterval(getScores, 1000);
+            pollScores = setInterval(getScores, 1000);
 
           }          
         },
@@ -61,26 +62,29 @@ var friendList = (function () {
         type: 'GET',
         success: function(data){ 
 
-          console.log(data.scores);
-          console.log('complete!');
+          if (data) {
 
-          for (var i in data.scores) {
+            console.log('got scores!');
+            console.log(data);
 
-            var friendID = data.scores[i].other_id,
-                friendScore = data.scores[i].other_score;
+            for (var i in data) {
 
-            for (var i in friendsList) {
+              var friendID = data[i].other_id,
+                  friendScore = data[i].other_score;
 
-              if (friendsList[i].id == friendID) {
-                  friendsList[i].score = friendScore;
-              }
-            };
+              for (var i in friendsList) {
+
+                if (friendsList[i].user_id == friendID) {
+                    friendsList[i].score = friendScore;
+                }
+              };
+            }
+
+            render();
+
+            clearInterval(pollScores);
+
           }
-
-          render();
-
-          clearInterval(pollScores);
-
         },
         error: function(data) {}
     });
@@ -94,7 +98,7 @@ var friendList = (function () {
 
       var friend = friendsList[i],
           template = 
-          '<li data-id="' + friend.id + '">' +
+          '<li data-id="' + friend.user_id + '">' +
             '<img src="' + friend.picture + '"/>' +
             '<span class="name">' + friend.name + '</span>' + 
             '<span class="score_wrapper"><span class="score" style="background: rgba(0,207,10,' + friend.score/100 + ')">' + friend.score + '</span></span>' + 
@@ -111,7 +115,7 @@ var friendList = (function () {
   function getByID (id) {
 
     for (var i in friendsList) {
-      if (friendsList[i].id == id) {return friendsList[i]}
+      if (friendsList[i].user_id == id) {return friendsList[i]}
     }
     return false
   }

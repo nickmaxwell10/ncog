@@ -313,7 +313,7 @@ ul.friendList {
   color: #aaa
 }
 ul.friendList:before {
-  content: "Analyzing your friends...";
+  content: "Hang tight! We're Getting the scoop...";
   position: absolute;
   top: 4em;
   left: 33%;
@@ -383,8 +383,9 @@ ul.friendList li .score_wrapper {
 }
 
 ul.friendList li .score:empty {
-  background: #fff url('/static/img/spinner.gif') no-repeat 0 0 !important;
+  background: #fff url('/static/img/spinner.gif') no-repeat center center !important;
   background-size: contain;
+  opacity: 0.5
 }
 
 form#signUp {
