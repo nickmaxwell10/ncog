@@ -2,34 +2,35 @@ var friend = (function () {
 
   var tips = {
     80: [
-      'Working it.',
-      'All around goodness is happening.',
-      'On fire!',
+      'This person is on you like white on rice! .',
+      'Great job with mirroring their speech patterns.',
+      'You clearly listen to this person very well.',
+      
       'Good times ahead.',
-      'Getting hot in here!'],
+      'Well done!!'],
     60: [
-      'Making a positive impression.',
-      'Beyond flirting. ',
-      'Going good. Keep the momentum.',
+      "You're doing a pretty good job listening",
+      'This person is a friend, but they could be closer ',
+      'Going good. Keep up the momentum.',
       'Honey badger! ',
       'Keep it up.'],
     40: [
-      'Keep it up to warm up.',
-      'Are they floating your boat?',
-      'Are they digging you? ',
-      'Something more developing?',
-      'Have you meet up yet? '],
+      'If this is someone you care about, show them. Listen.',
+      "Eh. They like you but they wouldn't take a bullet",
+      'Consider meeting one on one to build common ground ',
+      'Room to grow the relationship',
+      'You guys could be greatf riends. '],
     20: [
-      'Not as interested?',
-      'Text slow down?',
-      'On the fence?',
+      'Woa there, they barely know you exist',
+      'Try playing hard to get',
+      "They're On the fence?",
       'Luke warm reception?',
-      'Need to warm up more?'],
+      'try to connec with them on personal things more.'],
     0: [
-      'Not sure they are as into you.',
-      'Not that into them?',
-      'Dropping it like it’s hot?',
-      'Too busy to text?',
+      'Never gonna happen, sorry',
+      "They think you're weird",
+      "Watch out for the restraining order you're sure to get if you keep this up",
+      'They respond to about one out of every hundred of your messages. Maybe.',
       'Not working out here.']
   };
 
