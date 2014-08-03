@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <title>nCog - relationship analytics</title>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
-    <link href="{{ STATIC_URL }}django_facebook/css/facebook.css" type="text/css" rel="stylesheet" media="all" />    
-    <script src="{{ STATIC_URL }}css/app.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <script src="{% static "js/app.js" %}"></script>
   </head>
   <body>
     <header>
-      <h2> nCog</h2>
+      <h2>nCog</h2>
      <hr> 
     </header>
     <div id="join" class="current">
@@ -18,14 +18,14 @@
         <h1 class="smallMargin">Find your next relationship</h1>
         <h2 class="lightText">nCog analyzes your Facebook messages to find friends you should date. Totally anonymous and free.</h2>
         <br />
-				<!-- <a class="button next facebook">Analyze my Facebook friends</a>-->
+				<!-- <a class="button next facebook">Analyze my Facebook friends</a> -->
 				{% include 'django_facebook/_facebook_js.html' %}
         <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
             <input type="hidden" value="{% url 'home' %}" name="next" />
             <input type="hidden" value="{{ request.path }}" name="register_next" />
             <input type="hidden" value="{{ request.path }}" name="error_next" />
             {% csrf_token %}
-            <input onclick="F.connect(this.parentNode); return false;" type="image" src="{{ STATIC_URL }}django_facebook/images/facebook_login.png" />
+            <input class="button facebook" onclick="F.connect(this.parentNode); return false;" value="Analyze your posts"/>
         </form>        
         <h5 class="lock">This information is not shared with anyone</h5>      
       </div>

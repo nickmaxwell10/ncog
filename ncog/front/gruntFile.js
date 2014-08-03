@@ -20,13 +20,13 @@ module.exports = function(grunt) {
           single_file: {
             options: {},
             src: 'src/style.css',
-            dest: 'public/style.css'
+            dest: '../core/static/css/style.css'
           }
       },      
       uglify: {
          my_target: {
             files: {
-               'public/app.js': [
+               '../core/static/js/app.js': [
                   'src/libraries/**/*.js',
                   'src/app/**/*.js'
                ]

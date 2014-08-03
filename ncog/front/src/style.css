@@ -3,7 +3,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, div {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
+  font-size: 100%; 
   font: inherit;
   vertical-align: baseline;
   position: relative;
@@ -18,6 +18,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, div {
 
 body {
    margin: 0;
+   background: #fff;
    font: 400 1.25em / 1.333em 'Source Sans Pro', sans-serif;
    text-rendering: optimizeLegibility;
    -webkit-font-smoothing: antialiased;   
@@ -84,7 +85,7 @@ div.half {padding-left: 12em;width: 24em}
 
 
 #join .half {
-  background: url('images/graphic.png') no-repeat 0 0;
+  background: url('/static/img/graphic.png') no-repeat 0 0;
   background-size: 8em
 }
 .results p {
@@ -176,7 +177,7 @@ select.large {background: none;margin-right: 0.33em}
 .lock {margin-left: 1.5em}
 
 .lock:before {
-  background: url('./images/lock.png') no-repeat center center;
+  background: url('/static/img/lock.png') no-repeat center center;
   content: "";
   width: 1em;
   height: 1em;
@@ -269,7 +270,12 @@ button.text {
 .button:active {
   position: relative;
   top: 1px;
-  opacity: 1.0
+  opacity: 1.0;
+  outline: none;
+}
+
+.button:focus {
+  outline: none;
 }
 
 .button.selected {
@@ -291,7 +297,7 @@ button.text {
   text-decoration: underline;
 }
 .button.facebook {
-  background: #3b599a url('images/facebook.png') no-repeat 0 0;
+  background: #3b599a url('/static/img/facebook.png') no-repeat 0 0;
   padding: 0.66em 1em 0.66em 3.5em;
   border-bottom: 2px solid #002A85;
   background-size: contain;
@@ -309,7 +315,7 @@ ul.friendList:before {
   position: absolute;
   top: 4em;
   left: 33%;
-  background: url('images/spinner.gif') no-repeat 0 0;
+  background: url('/static/img/spinner.gif') no-repeat 0 0;
   background-size: 1.33em;
   line-height: 1.33em;
   height: 1.33em;
@@ -375,4 +381,14 @@ ul.friendList li .score_wrapper {
 
 form#signUp {
   margin: 0 6em 2em;
+}
+
+#facebook_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  background: rgba(255,255,255,0.9)
 }
