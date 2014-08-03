@@ -1,3 +1,4 @@
+import scipy
 from scipy.stats import norm
 import unirest
 
@@ -45,8 +46,8 @@ def calculate_score_one_side(messages, gender=MALE):
 			pos_score =  classification['probability']['pos']
 			total_pos_score = total_pos_score + pos_score
 
-            len_score = calculate_length_score(msg.length)
-            total_len_score = total_len_score + len_score
+			len_score = calculate_length_score(msg.length)
+			total_len_score = total_len_score + len_score
 
 		except:
 			print 'fail!'
