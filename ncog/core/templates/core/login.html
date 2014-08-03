@@ -9,7 +9,7 @@
     <script src="{% static "js/app.js" %}"></script>
   </head>
   <body>
-    <header>
+    <header style= "height:300px;">
       <h2>nCog</h2>
      <hr> 
     </header>
@@ -27,7 +27,7 @@
             {% csrf_token %}
             <input class="button facebook" onclick="F.connect(this.parentNode); return false;" value="show me"/>
         </form>        
-        <h5 class="lock">This information is not shared with anyone</h5>      
+        <h5 ><span class="lock"></span>Totally Anonymous. Always.</h5>      
       </div>
     </div>
   </body>
