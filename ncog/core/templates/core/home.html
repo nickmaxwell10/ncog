@@ -5,10 +5,10 @@
 		 	$(function(){
 		 		
 		 	});
-		 	
+
 		 	function getFriends() {
 		 		$.getJSON("{% url 'friends'%}", function(data) {
-					alert(JSON.stringify(data));
+					console.log(JSON.stringify(data));
 		        }); 
 		 	}
 		 </script>
