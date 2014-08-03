@@ -136,6 +136,7 @@ def getScores(user_id):
 	user_scores = db.conversation_score.find({"user_id":user_id})
 	scores = []
 	for score in user_scores:
+		score['_id'] = str(score['_id'])
 		scores.append(score)
 
 	return scores
