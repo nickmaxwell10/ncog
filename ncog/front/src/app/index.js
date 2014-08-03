@@ -1,0 +1,7 @@
+$(function(){
+
+  slider.init();
+
+  signUp();
+
+});
