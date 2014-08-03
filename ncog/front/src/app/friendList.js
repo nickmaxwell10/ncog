@@ -1,6 +1,6 @@
 var friendList = (function () {
 
-  var friendsList, pollFriends, totalCalls = 0;
+  var friendsList, pollFriends, pollScores, totalCalls = 0;
 
   function init () {
 
@@ -11,6 +11,8 @@ var friendList = (function () {
       renderFriend(friend);
 
       slider.next();
+
+      $("html, body").animate({ scrollTop: 0 }, "slow");
     });
 
     fetch();
@@ -34,28 +36,55 @@ var friendList = (function () {
             console.log(data);
 
             for (var i in friendsList) {
-              friendsList[i].score = Math.round(Math.random()*100);
-              friendsList[i].picture = 'http://graph.facebook.com/' + friendsList[i].user_id + '/picture?type=large';
+              friendsList[i].score = friendsList[i].score || ''; 
+              friendsList[i].picture = "http://graph.facebook.com/" + friendsList[i].user_id + "/picture?height=200&width=200";
             };
 
             render();
 
             clearInterval(pollFriends);
 
+            getScores();
+
+            var pollScores = setInterval(getScores, 1000);
+
           }          
         },
-        error: function(data) {
+        error: function(data) {}
+    });
+  }
 
-          totalCalls++;
-          
-          if (totalCalls > 5) {
-            friendsList = fakeFriends;
-            clearInterval(pollFriends);
-            pollFriends = setInterval(fetch, 2000);
-            render();            
-          }
+  function getScores () {
 
-        }
+    $.ajax({
+        url: '/scores',
+        type: 'GET',
+        success: function(data){ 
+
+          if (data.status === 'complete') {
+
+            console.log('complete!');
+
+            for (var i in data.scores) {
+
+              var friendID = data.scores[i].other_id,
+                  friendScore = data.scores[i].other_score;
+
+              for (var i in friendsList) {
+
+                if (friendsList[i].id == friendID) {
+                    friendsList[i].score = friendScore;
+                }
+              };
+            }
+
+            render();
+
+            clearInterval(pollScores);
+
+          }          
+        },
+        error: function(data) {}
     });
   }
 
