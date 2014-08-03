@@ -55,17 +55,19 @@ def calculate_score_one_side(messages, gender=MALE):
 	total_len_score = 0
 
 	for message in messages:
-
 		try:
-			classification = Unirest.post("http://text-processing.com/api/sentiment/",
-			  params={"language": "english", "text": message['message']}
-			)
+			if message['message']:
+				print "IM PRINTING THIS: ", message['message']
+				classification = Unirest.post("https://japerk-text-processing.p.mashape.com/sentiment/",
+				  headers={"X-Mashape-Key": "PKPHwy5CTDmshw6wMcXOfPCMnNoGp1zre5QjsnHCyoRSG61gYa"},
+				  params={"language": "english", "text": message['message']}
+				)
 
-			pos_score =  classification['probability']['pos']
-			total_pos_score = total_pos_score + pos_score
+				pos_score =  classification['probability']['pos']
+				total_pos_score = total_pos_score + pos_score
 
-			len_score = calculate_length_score(msg.length)
-			total_len_score = total_len_score + len_score
+				len_score = calculate_length_score(msg.length)
+				total_len_score = total_len_score + len_score
 
 		except:
 			print 'fail!'

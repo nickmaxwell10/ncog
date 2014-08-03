@@ -151,6 +151,9 @@ def scoreThreadMe(user_id, other_id):
 	for message in messages:
 		to_return.append(message)
 
+	print "IN SCORE THREAD ME: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
+
+
 	
 	return(to_return)
 
@@ -166,7 +169,7 @@ def scoreThreadYou(user_id, other_id):
 		print "match"
 		to_return.append(message)
 
-	
+	print "IN SCORE THREAD YOU: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
 
 	return(to_return)
 
@@ -185,9 +188,10 @@ def combinedThread(user_id, other_id):
 							}).sort([("date", 1)])
 				
 	for message in messages:
-
-	
 		to_return.append(message)
+
+	print "IN Combinded: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
+
 	return(to_return)
 
 
