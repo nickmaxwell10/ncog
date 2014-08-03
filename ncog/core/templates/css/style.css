@@ -1,0 +1,378 @@
+/* Reset */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  position: relative;
+}
+
+.clear {width: 100%;display: block;clear: both;height: 0}
+
+.center {text-align: center;margin: 0 auto}
+
+.right {float: right;}
+.left {float: left;display: inline-block;}
+
+body {
+   margin: 0;
+   font: 400 1.25em / 1.333em 'Source Sans Pro', sans-serif;
+   text-rendering: optimizeLegibility;
+   -webkit-font-smoothing: antialiased;   
+   -webkit-font-variant-ligatures: common-ligatures;   
+      -moz-font-variant-ligatures: common-ligatures;   
+           font-variant-ligatures: common-ligatures;
+   -moz-font-feature-settings:"liga";
+        font-feature-settings:"liga";
+   -webkit-font-feature-settings:"liga"; 
+ }
+
+.bubble {
+  background: rgba(0,0,0,0,.1);
+  border-radius: 4px;
+}
+
+hr {opacity: 0.6;margin-bottom: 0.5em;height: 1px;background: #ccc;border: none;}
+
+body > div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top:0;
+  left: 100%;
+  bottom: 0;
+  margin: 2em auto 0;
+  -webkit-transition: all 0.3s ease-in-out;
+}
+
+body > div.next {
+  left: 100%;
+  right: auto;
+}
+
+body > div.current {
+  left: 0;
+  right: auto;
+}
+
+body > div.previous {
+  right: auto;
+  left: -100%;
+}
+
+body> div > div,
+header {
+  width: 36em;
+  margin: 4em auto 2em;
+}
+
+#logo {float: left;}
+
+header{margin: 10em auto 2em}
+
+header.top {margin-top: 2em}
+
+.nav {float: right;width: 50%}
+
+.nav * {float: right;display: block;}
+
+.nav a {float: right;display: block;margin-left: 1em;text-decoration: underline;}
+
+div.half {padding-left: 12em;width: 24em}
+
+
+#join .half {
+  background: url('images/graphic.png') no-repeat 0 0;
+  background-size: 8em
+}
+.results p {
+  border: 1px solid #aaa;
+  background: #Eee;
+  padding: 0.33em;
+  margin: 0.33em 0;
+}
+
+.results p .remove {
+  background: #aaa;
+  color: #000
+}
+
+.tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 14px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+}
+.tt-suggestion > p {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #333333;
+  white-space: nowrap;
+}
+.tt-suggestion > p:hover,
+.tt-suggestion > p:focus,
+.tt-suggestion.tt-cursor p {
+  color: #ffffff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #428bca;
+}
+
+.tt-hint {color: #aaa}
+
+/* Form */ 
+
+
+.largeLabel {
+  font-size: 1em;
+}
+
+form {margin-bottom: 2em}
+
+select.large,
+input[type="text"] {
+  font-size: 1em;
+  font-family: 'Source Sans Pro';
+  height: 2.33em;
+  line-height: 2.33em;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="text"].large {
+  width: 20em;
+  padding: 0.33em
+}
+
+input[type="text"].small {
+  width: 15em;
+  padding: 0.156em;
+  height: 1.66em;
+  line-height: 1.66em
+}
+select.large {background: none;margin-right: 0.33em}
+ /* Text */
+
+.lock {margin-left: 1.5em}
+
+.lock:before {
+  background: url('./images/lock.png') no-repeat center center;
+  content: "";
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  background-size: contain;
+  margin-right: 0.33em;
+  opacity: 0.44
+}
+
+a.small {
+  text-decoration: underline;
+  color: #777;
+  font-size: 0.77em
+}
+
+h1, h2, h3, h4, h5, p, ul, ol, code, blockquote {
+   font-weight: 400;
+   color: #000;
+   margin-bottom: 1.33em;
+}
+
+header h2 span {font-size: 0.77em;color: #aaa;color: #aaa;
+width: 50%;
+display: block;
+text-align: right;}
+
+header h2 span a {margin-left: 1em}
+
+.smallMargin {margin-bottom: 0.66em}
+.tinyMargin {margin-bottom: 0.33em}
+
+.lightText {color: rgb(130, 130, 148)}
+
+p, h3, blockquote, li {color: #000}
+
+h1 {font-size: 2em;line-height: 1.33em;margin-bottom: 0.66em}
+
+h1 em {font-style: normal;color: #777;font-weight: 300}
+
+h2 {font-size: 1.33em;line-height: 1.33em;margin-bottom: 0.66em}
+
+h3 {font-weight: 600}
+
+h4 {color: #898989;font-size: 0.75em;line-height: 1.33em}
+
+h5 {font-size: 0.77em;margin: 0;padding: 0.33em 0;color: #888}
+
+p a, h5 a, h2 a, .button {
+  color: inherit;
+  text-decoration: underline;
+}
+
+a, .link {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.text {
+  background: none;
+  border: none;
+  color: #888;
+  outline: none;
+  text-decoration: underline;
+}
+
+.button {
+  color: #fff;
+  cursor: pointer;
+  background: #3b599a;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  font-family: 'Source Sans Pro';
+  font-weight: 400;
+  padding: 0.66em;
+  font-size: 1em;
+  display: inline-block;
+  font-weight: 600;
+  margin: 0 0.66em 0.66em 0;
+}
+
+.button:hover {
+  opacity: 0.95
+}
+
+.button:active {
+  position: relative;
+  top: 1px;
+  opacity: 1.0
+}
+
+.button.selected {
+  border: 2px solid blue;
+  background: rgba(0, 0, 255, 0.5);
+}
+
+.button.secondary {
+  background: #BEC0DA
+}
+
+.button.text {
+  background: none;
+  color: #aaa;
+  font-size: 0.77em;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+}
+.button.facebook {
+  background: #3b599a url('images/facebook.png') no-repeat 0 0;
+  padding: 0.66em 1em 0.66em 3.5em;
+  border-bottom: 2px solid #002A85;
+  background-size: contain;
+}
+
+header h2 {color: red}
+
+ul.friendList {
+  padding: 1em 0 2em;
+  min-height: 6em;
+  color: #aaa
+}
+ul.friendList:before {
+  content: "Analyzing your friends...";
+  position: absolute;
+  top: 4em;
+  left: 33%;
+  background: url('images/spinner.gif') no-repeat 0 0;
+  background-size: 1.33em;
+  line-height: 1.33em;
+  height: 1.33em;
+  padding-left: 1.66em
+}
+
+ul.friendList.finished:before {display: none;}
+
+ul.friendList li:hover {
+  opacity: 0.95;
+  background: rgba(0,0,0,0.05);
+}
+
+ul.friendList li:active {
+  position: relative;
+  top: 1px;
+}
+
+ul.friendList li {
+  list-style-type: none;
+  cursor: pointer;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  width: 20%;
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0 0 1em;
+}
+
+ul.friendList li img {
+  width: 80%;
+  display: block;
+  margin: 10%;
+  margin-bottom: 5%
+}
+
+ul.friendList li .name {
+  height: 2.66em;
+  display: block;
+  max-height: 2.66em;
+  overflow: hidden;
+  font-size: 0.77em;
+  text-align: center;
+}
+
+ul.friendList li .score_wrapper,
+ul.friendList li .score {
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  border-radius: 50%;
+  text-align: center;
+  display: block;
+}
+
+ul.friendList li .score_wrapper {
+  position: absolute;
+  top: 2.5%;
+  right: 2.5%;
+  border: 4px solid #fff;
+  background: #fff;
+}
+
+form#signUp {
+  margin: 0 6em 2em;
+}
