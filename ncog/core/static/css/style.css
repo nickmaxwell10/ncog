@@ -313,7 +313,7 @@ ul.friendList {
   color: #aaa
 }
 ul.friendList:before {
-  content: "Analyzing your friends...";
+  content: "Hang tight! We're Getting the scoop...";
   position: absolute;
   top: 4em;
   left: 33%;
