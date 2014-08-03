@@ -313,7 +313,7 @@ ul.friendList {
   color: #aaa
 }
 ul.friendList:before {
-  content: "Hang tight! We're Getting the scoop...";
+  content: "Analyzing your friends...";
   position: absolute;
   top: 4em;
   left: 33%;
@@ -409,3 +409,28 @@ form#signUp {
   margin: 0;
   background: rgba(255,255,255,0.9)
 }
+
+.bubble 
+{
+position: relative;
+width: 100%;
+padding: 1em;
+margin: 1em 0;
+background: #eee;
+border-radius: 10px;
+}
+
+.bubble:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 0 15px 15px;
+border-color: #eee transparent;
+display: block;
+width: 0;
+z-index: 1;
+top: -15px;
+left: 35px;
+}
+

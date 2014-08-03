@@ -61,7 +61,7 @@ function render (friend) {
 
   var html = '<h1>' + friend.name + '</h1>' +
     '<img src="' + friend.picture + '" />' +
-    '<h2>Message: ' + message + '</h2>';
+    '<p class="bubble">' + message + '</p>';
     '<h2>Score: ' + friend.score + '</h2>';
   
   $('#friendInfo').html(html);
