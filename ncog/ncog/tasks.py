@@ -42,10 +42,9 @@ def breadthlooper( inbox, user, facebook):
 		if 'comments' in conversation and 'data' in conversation['comments']:
 					thread_participants = conversation['to']['data']
 					if (len(thread_participants) == 2):
-						
 						for participant in thread_participants:
-							participant_id = int(participant['id'])
-							if (user.facebook_id != participant_id):
+							participant_id = str(participant['id'])
+							if (str(user.facebook_id) != participant_id):
 								other_id = participant_id
 								if db.user_friends.find_one({"user_id": user.facebook_id}):
 									db.user_friends.update(
@@ -70,8 +69,8 @@ def breadthlooper( inbox, user, facebook):
 										)
 						
 
-						list_to.append(scoreThreadMe(user.facebook_id, str(other_id)))
-						list_from.append(scoreThreadYou(user.facebook_id, str(other_id)))
+						list_to.append(scoreThreadMe(str(user.facebook_id), str(other_id)))
+						list_from.append(scoreThreadYou(str(user.facebook_id), str(other_id)))
 						combined_list.append(combinedThread(str(user.facebook_id), str(other_id)))
 						
 						for comment in conversation['comments']['data']:
@@ -79,12 +78,12 @@ def breadthlooper( inbox, user, facebook):
 							if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
 									date_object = datetime.strptime(comment['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
 									print "running db writes with new conversions"
-									if int(comment['from']['id']) == user.facebook_id:
+									if long(comment['from']['id']) == user.facebook_id:
 										message = {
-											"user_id":user.facebook_id,
-											"to_id": other_id,
+											"user_id":str(user.facebook_id),
+											"to_id": str(other_id),
 											"to_me" : False,
-											"from_id": comment['from']['id'],
+											"from_id": str(comment['from']['id']),
 											"message_id": comment['id'],
 											"message": comment['message'],
 											"date": date_object,
@@ -94,10 +93,10 @@ def breadthlooper( inbox, user, facebook):
 										
 									else:
 										message = {
-											"user_id": user.facebook_id,
-											"to_id": user.facebook_id,
+											"user_id": str(user.facebook_id),
+											"to_id": str(user.facebook_id),
 											"to_me": True,
-											"from_id": comment['from']['id'],
+											"from_id": str(comment['from']['id']),
 											"message_id": comment['id'],
 											"message": comment['message'],
 											"date": date_object,
@@ -152,11 +151,10 @@ def scoreThreadMe(user_id, other_id):
 		to_return.append(message)
 
 	print "IN SCORE THREAD ME: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
-
+	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	
 	return(to_return)
-
 
 
 def scoreThreadYou(user_id, other_id):
@@ -170,6 +168,7 @@ def scoreThreadYou(user_id, other_id):
 		to_return.append(message)
 
 	print "IN SCORE THREAD YOU: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
+	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	return(to_return)
 
@@ -177,13 +176,14 @@ def combinedThread(user_id, other_id):
 	print "combinedThread running" 
 	to_return = []
 
-
-
-	messages = db.messages.find(
-							{"user_id": user_id,
+	messages = db.messages.find({
 							 "$or": [
 									{ "to_id": other_id},
 									{ "from_id" : other_id},
+									{'$and': [
+								       {"user_id": user_id}
+								   	]
+								   	}
 								]
 							}).sort([("date", 1)])
 				
@@ -191,6 +191,7 @@ def combinedThread(user_id, other_id):
 		to_return.append(message)
 
 	print "IN Combinded: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
+	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	return(to_return)
 
