@@ -81,7 +81,7 @@ def breadthlooper( inbox, user, facebook):
 						#individual converation loop
 						message_total = 0
 						#for conversation in inbox['paging']
-						#thread_list.append(scoreThreadMe(user.facebook_id, other_id))
+						thread_list.append(scoreThreadMe(user.facebook_id, other_id))
 						thread_list.append(scoreThreadYou(user.facebook_id, other_id))
 						for comment in conversation['comments']['data']:
 
