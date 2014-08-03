@@ -14,6 +14,20 @@
 		 </script>
 	</head>
 	<body>
+		<p> Threads = </p>
+
+
+		{% for thread in threads %}
+			<p>{{thread}}<p>
+
+				<div style="font-size:12px;">{{comment.created_time}}</div>
+				<br/>
+			{% endfor %}
+
+
+
+
+
 		<br/><br/>
 		{% for thread in inbox.data %}
 			{% for comment in thread.comments.data %}

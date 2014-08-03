@@ -1,5 +1,4 @@
 from __future__ import absolute_import, division
-
 from celery import shared_task
 from django.conf import settings
 from open_facebook import OpenFacebook
@@ -41,9 +40,12 @@ def getUserInbox(user):
 	inbox2 = facebook.get(inbox['paging']['next'].split("v2.0")[1])
 	#to_return = dict(breadthlooper(inbox, user, facebook).items()  + breadthlooper(inbox2, user, facebook).items())
 	#print to_return
-	return(breadthlooper(inbox,user, facebook) , breadthlooper(inbox2,user, facebook))
+	return breadthlooper(inbox,user, facebook) #, breadthlooper(inbox2,user, facebook))
 
 def breadthlooper( inbox, user, facebook):
+	thread_list = []
+
+	print "breadthlooper starting"
 	for conversation in inbox['data']:
 		if 'comments' in conversation and 'data' in conversation['comments']:
 					thread_participants = conversation['to']['data']
@@ -79,6 +81,8 @@ def breadthlooper( inbox, user, facebook):
 						#individual converation loop
 						message_total = 0
 						#for conversation in inbox['paging']
+						#thread_list.append(scoreThreadMe(user.facebook_id, other_id))
+						thread_list.append(scoreThreadYou(user.facebook_id, other_id))
 						for comment in conversation['comments']['data']:
 
 							if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
@@ -96,6 +100,8 @@ def breadthlooper( inbox, user, facebook):
 										}
 										db.messages.insert(message)
 										message_total = message_total + 1
+										print "commentasdasda is " , type( comment['from']['id'])
+										
 										
 									else:
 										message = {
@@ -108,8 +114,9 @@ def breadthlooper( inbox, user, facebook):
 											"date": date_object,
 										}
 										db.messages.insert(message)
-										message_total = message_total + 1
 										
+										
+										#thread_score = scoreThread(user.facebook_id, other_id)
 						
 						#if message_total == 25:
 							#url = conversation['comments']['paging']['next']
@@ -122,8 +129,8 @@ def breadthlooper( inbox, user, facebook):
 							{"user_id": user.facebook_id},
 							{"$set": { "status": "complete" }}
 						)
-	return inbox
-
+	print "calling scoreThread now"	
+	return thread_list
 def getFriends(user_id):
 	user_friend = db.user_friends.find_one({"user_id":user_id})
 	if user_friend:
@@ -136,7 +143,43 @@ def getFriends(user_id):
 			return "processing"
 	else:
 		return "processing"
+def scoreThreadMe(user_id, other_id):
+	print "scoreThreadMe printing"
+	print "score thread other_id" , type(other_id)
 
+	to_return = []
+	messages = db.messages.find({ "from_id":unicode(other_id)}
+						)
+	
+							 					
+							
+	for message in messages:
+		to_return.append(str(message))
+
+		print "message type " ,type(message)
+		print "to_return = "  , to_return
+	print (to_return)
+	return(to_return)
+
+
+
+def scoreThreadYou(user_id, other_id):
+	print "scoreThreadMe printing"
+	print "score thread other_id" , type(other_id), other_id
+
+	to_return = []
+	messages = db.messages.find({ "to_id": other_id}
+						)
+	
+							 					
+							
+	for message in messages:
+		to_return.append(str(message))
+
+		print "message type " ,type(message)
+		print "to_return = "  , to_return
+	print (to_return)
+	return(to_return)
 
 
 

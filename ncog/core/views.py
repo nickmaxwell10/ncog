@@ -5,7 +5,6 @@ from open_facebook import OpenFacebook
 import json
 
 from ncog.tasks import getUserInbox, getFriends
-
 # Create your views here.
 def login(request):
     context = RequestContext(request)
@@ -15,7 +14,10 @@ def login(request):
 def home(request):
     context = RequestContext(request)
 
-    getUserInbox.delay(request.user)
+    #inbox = getUserInbox(request.user
+    threads = getUserInbox(request.user)
+    #context['inbox'] = inbox
+    context['threads'] = threads
 
     return render_to_response('core/home.html', context)
 
