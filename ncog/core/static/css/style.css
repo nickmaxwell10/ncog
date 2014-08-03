@@ -305,7 +305,7 @@ button.text {
   background-size: contain;
 }
 
-header h2 {color: red}
+header h2 {color: red;}
 
 ul.friendList {
   padding: 1em 0 2em;
