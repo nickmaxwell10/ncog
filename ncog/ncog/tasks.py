@@ -5,6 +5,7 @@ import json
 from bson import ObjectId
 import pymongo as pymongo
 from pymongo import Connection
+from datetime import datetime
 
 db = Connection(
     host=getattr(settings, "MONGODB_HOST", None),
@@ -64,35 +65,41 @@ def breadthlooper( inbox, user, facebook):
 
 							if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
 									if int(comment['from']['id']) == user.facebook_id:
+										
+										date_object = datetime.strptime(comment['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
+										print type(date_object)
+
 										message = {
 											"user_id": user.facebook_id,
 											"to_id": other_id,
+											"to_me" : False,
 											"from_id": comment['from']['id'],
 											"message_id": comment['id'],
 											"message": comment['message'],
-											"date": comment['created_time']
+											"date": date_object,
 										}
 										db.messages.insert(message)
 										message_total = message_total + 1
-										print "from me to ", other_id
+										
 									
 									else:
 										
 										message = {
 											"user_id": user.facebook_id,
 											"to_id": user.facebook_id,
+											"to_me": True,
 											"from_id": comment['from']['id'],
 											"message_id": comment['id'],
 											"message": comment['message'],
-											"date": comment['created_time']
+											"date": date_object,
 										}
 										db.messages.insert(message)
 										message_total = message_total + 1
-										print "from  ", other_id, " to me " , "my id = ", user.facebook_id
+										
 						
-						if message_total == 25:
-							url = conversation['comments']['paging']['next']
-							url = url.split("v2.0")[1]
+						#if message_total == 25:
+							#url = conversation['comments']['paging']['next']
+							#url = url.split("v2.0")[1]
 							
 							#depthlooper(inbox, user, facebook, url)
 						
