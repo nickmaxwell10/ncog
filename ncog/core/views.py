@@ -15,9 +15,7 @@ def login(request):
 def home(request):
     context = RequestContext(request)
 
-    inbox = getUserInbox(request.user)
-
-    context['inbox'] = inbox
+    getUserInbox.delay(request.user)
 
     return render_to_response('core/home.html', context)
 

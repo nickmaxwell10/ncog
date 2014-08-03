@@ -10434,3 +10434,22 @@ Traceback (most recent call last):
   File "/usr/lib/python2.6/dist-packages/pip.py", line 3543, in call_subprocess
     % (command_desc, proc.returncode))
 InstallationError: Command /usr/bin/python -c "import setuptools; __file__='/vagrant/ncog/build/pillow/setup.py'; execfile('/vagrant/ncog/build/pillow/setup.py')" install --single-version-externally-managed --record /tmp/pip-C5YBZN-record/install-record.txt --install-headers /vagrant/ncog/lib/include failed with error code 1
+------------------------------------------------------------
+/usr/local/bin/pip run on Sun Aug  3 10:08:24 2014
+Exception:
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 252, in main
+    self.run(options, args)
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 408, in run
+    requirement_set.install_files(finder, force_root_egg_info=self.bundle)
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 1721, in install_files
+    if req_to_install.check_if_exists():
+  File "/usr/lib/python2.6/dist-packages/pip.py", line 1583, in check_if_exists
+    dist = pkg_resources.get_distribution(self.req)
+  File "/usr/lib/python2.6/dist-packages/pkg_resources.py", line 292, in get_distribution
+    if isinstance(dist,Requirement): dist = get_provider(dist)
+  File "/usr/lib/python2.6/dist-packages/pkg_resources.py", line 176, in get_provider
+    return working_set.find(moduleOrReq) or require(str(moduleOrReq))[0]
+  File "/usr/lib/python2.6/dist-packages/pkg_resources.py", line 436, in find
+    raise VersionConflict(dist,req)     # XXX add more info
+VersionConflict: (redis 2.10.1 (/usr/local/lib/python2.6/dist-packages), Requirement.parse('redis==2.9.0'))

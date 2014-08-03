@@ -90,6 +90,10 @@ MONGODB_DATABASE = "f1fppjye6f1hftlr"
 MONGODB_USERNAME = "uccmfao1bs95wflm"
 MONGODB_PASSWORD = "joNGDcHtQzsLsFild2qjoYamL"
 
+#Celery config
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
