@@ -11,6 +11,8 @@ var friendList = (function () {
       renderFriend(friend);
 
       slider.next();
+
+      $("html, body").animate({ scrollTop: 0 }, "slow");
     });
 
     fetch();
@@ -34,8 +36,8 @@ var friendList = (function () {
             console.log(data);
 
             for (var i in friendsList) {
-              friendsList[i].score = friendsList[i].score || '';
-              friendsList[i].picture = 'http://graph.facebook.com/' + friendsList[i].user_id + '/picture?type=large';
+              friendsList[i].score = friendsList[i].score || ''; 
+              friendsList[i].picture = "http://graph.facebook.com/" + friendsList[i].user_id + "/picture?height=200&width=200";
             };
 
             render();
