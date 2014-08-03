@@ -23,13 +23,31 @@ female_res_rate_dist = norm(loc=average_female_res_rate, scale=std_female_res_ra
 male_res_rate_dist = norm(loc=average_male_res_rate, scale=std_male_res_rate)
 
 
-def calculate_scores(messages, messages_to, messages_from):
+def calculate_scores(messages, messages_to, messages_from, user_id, other_id):
+	print 'CALCULATING SCORES'
 	from_me = calculate_score_one_side(messages_to)
 	to_me = calculate_score_one_side(messages_from)
 	response_rate = calculate_response_rate(messages)
 
 	user_score = love_weights[0]*from_me['pos'] + love_weights[1]*from_me['len'] + love_weights[2]*response_rate['user']
 	other_score = love_weights[0]*to_me['pos'] + love_weights[1]*to_me['len'] + love_weights[2]*response_rate['other']
+
+	conversation_score = {
+		"user_id" : user_id,
+		"other_id" : other_id,
+		"user_score" : user_score,
+		"other_score" : other_score,
+		"user_avg_resp_rate" : response_rate['user'],
+		"other_avg_resp_rate" : response_rate['other'],
+		"user_avg_message_size" : from_me['len'],
+		"other_avg_message_size" : to_me['len'],
+		"user_num_messages" : len(messages_from),
+		"other_num_messages" : len(messages_to),
+		"user_avg_sentiment" : from_me['pos'],
+		"user_avg_sentiment" : to_me['pos']
+	}
+	
+	return conversation_score
 
 def calculate_score_one_side(messages, gender=MALE):
 
@@ -80,39 +98,51 @@ def calculate_response_rate(messages):
 	to_me = False
 	first = True
 
+	print 'In Calculate Response Rate:  Messages length: ' + str(len(messages))
+	print " First message: " + str(messages[0]) 
+
 	for message in messages:
-		if first:
-			to_me = message['to_me']
-			if to_me:
-				other_last_time = message['date']
-			else:
-				user_last_date = message['date']
-			first = False
-		else:
-			if message['to_me'] != to_me:
-				if to_me:
-					diff = (message['date'] - user_last_date).total_seconds()
-					other_last_date = message['date']
-					other_total_diff = other_total_diff + diff
-					other_total_switch = other_total_switch + 1
-				else:
-					diff = (message['date'] - other_last_date).total_seconds
-					user_last_date = message['date']
-					user_total_diff = user_total_diff + diff
-					user_total_switch = user_total_switch + 1
+		if message and len(message):
+			if first:
 				to_me = message['to_me']
-			else:
 				if to_me:
-					other_last_date = message['date']
-					other_total_diff = other_total_diff + diff
-					other_total_switch = other_total_switch + 1
+					other_last_time = message['date']
 				else:
 					user_last_date = message['date']
-					user_total_diff = user_total_diff + diff
-					user_total_switch = user_total_switch + 1
+				first = False
+			else:
+				if message['to_me'] != to_me:
+					if to_me:
+						diff = (message['date'] - user_last_date).total_seconds()
+						other_last_date = message['date']
+						other_total_diff = other_total_diff + diff
+						other_total_switch = other_total_switch + 1
+					else:
+						diff = (message['date'] - other_last_date).total_seconds
+						user_last_date = message['date']
+						user_total_diff = user_total_diff + diff
+						user_total_switch = user_total_switch + 1
+					to_me = message['to_me']
+				else:
+					if to_me:
+						other_last_date = message['date']
+						other_total_diff = other_total_diff + diff
+						other_total_switch = other_total_switch + 1
+					else:
+						user_last_date = message['date']
+						user_total_diff = user_total_diff + diff
+						user_total_switch = user_total_switch + 1
+	
+	user_total = 0
+	if user_total_switch:
+		user_total = (user_total_diff / user_total_switch)
+
+	other_total = 0
+	if other_total_switch:
+		other_total = (other_total_diff / other_total_switch)
 	return {
-		"user" : (user_total_diff / user_total_switch),
-		"other" : (other_total_diff / other_total_switch)
+		"user" : user_total,
+		"other" : other_total
 	}
 
 

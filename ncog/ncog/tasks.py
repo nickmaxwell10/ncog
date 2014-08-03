@@ -33,9 +33,12 @@ def breadthlooper( inbox, user, facebook):
 	combined_list = []
 	list_to = []
 	list_from = []
-
+	combined_list = []
 	print "breadthlooper starting"
 	for conversation in inbox['data']:
+		other_id = None
+		list_to = []
+		list_from = []
 		if 'comments' in conversation and 'data' in conversation['comments']:
 					thread_participants = conversation['to']['data']
 					if (len(thread_participants) == 2):
@@ -101,12 +104,16 @@ def breadthlooper( inbox, user, facebook):
 										}
 										db.messages.insert(message)
 
+						conversation_score = calculate_scores(combined_list, list_to, list_from, user.facebook_id, other_id)
+						db.conversation_score.insert(conversation_score)
+
+
 
 	db.user_friends.update(
 							{"user_id": user.facebook_id},
 							{"$set": { "status": "complete" }})
 
-	calculate_scores(combined_list, list_to, list_from)
+	print '---ABOUT TO CALCULATE SCORES'
 	
 	return True
 
@@ -130,10 +137,12 @@ def scoreThreadMe(user_id, other_id):
 	#pulls messages from thread of other person to user
 
 	to_return = []
-	messages = db.messages.find({ "from_id":other_id})
+	messages = db.messages.find({ "from_id":other_id, "user_id":user_id})
 								
 	for message in messages:
 		to_return.append(message)
+
+	print "SCORE THREAD ME: "  + str(len(to_return)
 
 	return(to_return)
 
@@ -143,11 +152,14 @@ def scoreThreadYou(user_id, other_id):
 	#pulls messages from thread of user to other person
 	print "running scoreThreadYou"
 	to_return = []
-	messages = db.messages.find({ "to_id": other_id })
+	messages = db.messages.find({ "to_id": other_id, "user_id":user_id })
 				
 	for message in messages:
 		print "match"
 		to_return.append(message)
+
+	print "SCORE THREAD ME: "  + str(len(to_return)
+		
 	return(to_return)
 
 def combinedThread(user_id, other_id):
@@ -157,11 +169,12 @@ def combinedThread(user_id, other_id):
 
 
 	messages = db.messages.find(
-							{"$or": [
-								{ "to_id": other_id},
-								{ "from_id" : other_id},
-									]
-								})
+							{"user_id": user_id,
+							 "$or": [
+									{ "to_id": other_id},
+									{ "from_id" : other_id},
+								]
+							}).sort([("date", 1)])
 				
 	for message in messages:
 
