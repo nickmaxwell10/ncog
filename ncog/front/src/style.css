@@ -379,6 +379,11 @@ ul.friendList li .score_wrapper {
   background: #fff;
 }
 
+ul.friendList li .score:empty {
+  background: #fff url('/static/img/spinner.gif') no-repeat 0 0 !important;
+  background-size: contain;
+}
+
 form#signUp {
   margin: 0 6em 2em;
 }
