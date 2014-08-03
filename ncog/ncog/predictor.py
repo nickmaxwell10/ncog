@@ -22,16 +22,13 @@ female_res_rate_dist = norm(loc=average_female_res_rate, scale=std_female_res_ra
 male_res_rate_dist = norm(loc=average_male_res_rate, scale=std_male_res_rate)
 
 
-def calculate_cores(messages, messages_to, messages_from):
+def calculate_scores(messages, messages_to, messages_from):
 	from_me = calculate_score_one_side(messages_to)
 	to_me = calculate_score_one_side(messages_from)
 	response_rate = calculate_response_rate(messages)
 
 	user_score = love_weights[0]*from_me['pos'] + love_weights[1]*from_me['len'] + love_weights[2]*response_rate['user']
 	other_score = love_weights[0]*to_me['pos'] + love_weights[1]*to_me['len'] + love_weights[2]*response_rate['other']
-
-	
-
 
 def calculate_score_one_side(messages, gender=MALE):
 

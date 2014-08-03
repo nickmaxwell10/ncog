@@ -8,6 +8,8 @@ import pymongo as pymongo
 from pymongo import Connection
 from datetime import datetime
 
+from ncog.predictor import calculate_scores
+
 db = Connection(
     host=getattr(settings, "MONGODB_HOST", None),
     port=getattr(settings, "MONGODB_PORT", None)
@@ -17,20 +19,6 @@ if getattr(settings, "MONGODB_USERNAME", None):
     db.authenticate(getattr(settings, "MONGODB_USERNAME", None), getattr(settings, "MONGODB_PASSWORD", None))
 
 
-# def getUserInbox(user):
-# 	access_token = user.access_token
-# 	facebook = OpenFacebook(access_token)
-
-# 	nextConversationUrl = 'me/inbox'
-# 	numMessages = 1
-# 	while(numMessages > 0):
-# 		numMessages = 0
-# 		conversations = facebook.get(nextConversationUrl)
-# 		for conversation in conversations:
-# 			for message in conversation.messages:
-# 				numMessages++
-# 		nextConversationUrl = conversations.pager.next
-
 
 @shared_task
 def getUserInbox(user):
@@ -38,12 +26,13 @@ def getUserInbox(user):
 	facebook = OpenFacebook(access_token)
 	inbox = facebook.get('/me/inbox')
 	inbox2 = facebook.get(inbox['paging']['next'].split("v2.0")[1])
-	#to_return = dict(breadthlooper(inbox, user, facebook).items()  + breadthlooper(inbox2, user, facebook).items())
-	#print to_return
-	return breadthlooper(inbox,user, facebook) #, breadthlooper(inbox2,user, facebook))
+	
+	return breadthlooper(inbox,user, facebook)
 
 def breadthlooper( inbox, user, facebook):
-	thread_list = []
+	combined_list = []
+	list_to = []
+	list_from = []
 
 	print "breadthlooper starting"
 	for conversation in inbox['data']:
@@ -77,9 +66,11 @@ def breadthlooper( inbox, user, facebook):
 										}
 										)
 						
-						#thread_list.append(scoreThreadMe(user.facebook_id, str(other_id)))
-						#thread_list.append(scoreThreadYou(user.facebook_id, str(other_id)))
-						thread_list.append(combinedThread(str(user.facebook_id), str(other_id)))
+
+						list_to.append(scoreThreadMe(user.facebook_id, str(other_id)))
+						list_from.append(scoreThreadYou(user.facebook_id, str(other_id)))
+						combined_list.append(combinedThread(str(user.facebook_id), str(other_id)))
+						
 						for comment in conversation['comments']['data']:
 
 							if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
@@ -114,8 +105,10 @@ def breadthlooper( inbox, user, facebook):
 	db.user_friends.update(
 							{"user_id": user.facebook_id},
 							{"$set": { "status": "complete" }})
+
+	calculate_scores(combined_list, list_to, list_from)
 	
-	return thread_list
+	return True
 
 
 
@@ -141,15 +134,7 @@ def scoreThreadMe(user_id, other_id):
 								
 	for message in messages:
 		to_return.append(message)
-	print "inserting to"
-	db.conversation_score.insert(
-									{
-										"user_id": user_id,
-										"other_id": other_id,
-										"user_score" : 0.5,
-										"other_score": 0.1,
-													
-											})
+
 	return(to_return)
 
 
