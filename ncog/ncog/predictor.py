@@ -1,3 +1,4 @@
+from __future__ import division
 import scipy
 from scipy.stats import norm
 import unirest
@@ -7,6 +8,7 @@ from datetime import datetime
 FEAMALE = 1
 MALE = 0;
 
+# love_weights = [(long(2)/long(3)), (long(1)/long(6)), (long(1)/long(6))]
 love_weights = [(2/3), (1/6), (1/6)]
 
 average_female_msg_length = 58
@@ -30,6 +32,14 @@ def calculate_scores(messages, messages_to, messages_from, user_id, other_id):
 	from_me = calculate_score_one_side(messages_to)
 	to_me = calculate_score_one_side(messages_from)
 	response_rate = calculate_response_rate(messages)
+
+	# "USER SENTIMENT " + from_me['pos']
+	# "USER MSG LEN " + from_me['len']
+	# "USER Response rate " + response_rate['user']
+
+	# "Other SENTIMENT " + to_me['pos']
+	# "Other FROM ME MSG LEN " + to_me['len']
+	# "Other Response rate " + response_rate['other']
 
 	user_score = love_weights[0]*from_me['pos'] + love_weights[1]*from_me['len'] + love_weights[2]*response_rate['user']
 	other_score = love_weights[0]*to_me['pos'] + love_weights[1]*to_me['len'] + love_weights[2]*response_rate['other']
@@ -59,17 +69,15 @@ def calculate_score_one_side(messages, gender=MALE):
 	for message in messages:
 		try:
 			if message['message']:
-				print "IM PRINTING THIS: ", message['message']
 				classification = unirest.post("https://japerk-text-processing.p.mashape.com/sentiment/",
 				  headers={"X-Mashape-Key": "PKPHwy5CTDmshw6wMcXOfPCMnNoGp1zre5QjsnHCyoRSG61gYa"},
 				  params={"language": "english", "text": message['message']}
 				)
 
-				print 'CLASSIFICATION BODY: ' + str(classification.body)
 				pos_score =  classification.body['probability']['pos']
 				total_pos_score = total_pos_score + pos_score
 
-				len_score = calculate_length_score(msg.length)
+				len_score = calculate_length_score(len(message['message']))
 				total_len_score = total_len_score + len_score
 
 		except Exception, err:
@@ -106,9 +114,6 @@ def calculate_response_rate(messages):
 
 	to_me = False
 	first = True
-
-	print 'In Calculate Response Rate:  Messages length: ' + str(len(messages))
-	print " First message: " + str(messages[0]) 
 
 	for message in messages:
 		if message and len(message):
@@ -150,8 +155,8 @@ def calculate_response_rate(messages):
 	if other_total_switch:
 		other_total = (other_total_diff / other_total_switch)
 	return {
-		"user" : user_total,
-		"other" : other_total
+		"user" : calculate_res_rate_score(user_total),
+		"other" : calculate_res_rate_score(other_total)
 	}
 
 def secondsInTimeDelta(td):

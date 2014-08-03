@@ -111,8 +111,6 @@ def breadthlooper( inbox, user, facebook):
 	db.user_friends.update(
 							{"user_id": user.facebook_id},
 							{"$set": { "status": "complete" }})
-
-	print '---ABOUT TO CALCULATE SCORES'
 	
 	return True
 
@@ -149,31 +147,20 @@ def scoreThreadMe(user_id, other_id):
 								
 	for message in messages:
 		to_return.append(message)
-
-	print "IN SCORE THREAD ME: " + str(len(to_return)) + " Other:  " +  str(other_id) + " User: " + str(user_id)
-	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
-
 	
 	return(to_return)
 
 
 def scoreThreadYou(user_id, other_id):
-	#pulls messages from thread of user to other person
-	print "running scoreThreadYou"
 	to_return = []
 	messages = db.messages.find({ "to_id": other_id, "user_id":user_id })
 				
 	for message in messages:
-		print "match"
 		to_return.append(message)
-
-	print "IN SCORE THREAD YOU: " + str(len(to_return)) + " Other:  " +  str(other_id) + " User: " + str(user_id)
-	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	return(to_return)
 
 def combinedThread(user_id, other_id):
-	print "combinedThread running" 
 	to_return = []
 
 	messages = db.messages.find({
@@ -189,9 +176,6 @@ def combinedThread(user_id, other_id):
 				
 	for message in messages:
 		to_return.append(message)
-
-	print "IN Combinded: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
-	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	return(to_return)
 
