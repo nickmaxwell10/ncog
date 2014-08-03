@@ -8,7 +8,7 @@ var friendList = (function () {
 
      var friend = getByID($(this).attr('data-id'));
     
-      renderFriend(friend);
+      friend.render(friend);
 
       slider.next();
 
