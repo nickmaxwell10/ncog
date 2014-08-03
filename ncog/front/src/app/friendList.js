@@ -63,10 +63,10 @@ var friendList = (function () {
 
             console.log('complete!');
 
-            for (var i in data) {
+            for (var i in data.scores) {
 
-              var friendID = data[i].other_id,
-                  friendScore = data[i].other_score;
+              var friendID = data.scores[i].other_id,
+                  friendScore = data.scores[i].other_score;
 
               for (var i in friendsList) {
 
