@@ -4,3 +4,6 @@
 *.pyc
 *.pyo
 *.orig
+.vagrant/*
+*.box
+**/node_modules/*
