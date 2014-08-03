@@ -11,6 +11,11 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, b, ul, ol, li, div {
 
 .clear {width: 100%;display: block;clear: both;height: 0}
 
+.center {text-align: center;margin: 0 auto}
+
+.right {float: right;}
+.left {float: left;display: inline-block;}
+
 body {
    margin: 0;
    font: 400 1.25em / 1.333em 'Source Sans Pro', sans-serif;
@@ -21,6 +26,11 @@ body {
    -webkit-font-feature-settings:"liga"; 
  }
 
+.bubble {
+  background: rgba(0,0,0,0,.1);
+  border-radius: 4px;
+}
+
 hr {opacity: 0.6;margin-bottom: 0.5em;height: 1px;background: #ccc;border: none;}
 
 body > div {
@@ -28,7 +38,7 @@ body > div {
   height: 100%;
   position: absolute;
   top:0;
-  right: 100%;
+  left: 100%;
   bottom: 0;
   margin: 2em auto 0;
   -webkit-transition: all 0.3s ease-in-out;
@@ -41,12 +51,12 @@ body > div.next {
 
 body > div.current {
   left: 0;
-  right: 0;
+  right: auto;
 }
 
 body > div.previous {
-  right: 100%;
-  left: auto
+  right: auto;
+  left: -100%;
 }
 
 body> div > div,
@@ -55,7 +65,17 @@ header {
   margin: 4em auto 2em;
 }
 
+#logo {float: left;}
+
 header{margin: 10em auto 2em}
+
+header.top {margin-top: 2em}
+
+.nav {float: right;width: 50%}
+
+.nav * {float: right;display: block;}
+
+.nav a {float: right;display: block;margin-left: 1em;text-decoration: underline;}
 
 div.half {padding-left: 12em;width: 24em}
 
@@ -175,7 +195,15 @@ h1, h2, h3, h4, h5, p, ul, ol, code, blockquote {
    margin-bottom: 1.33em;
 }
 
+header h2 span {font-size: 0.77em;color: #aaa;color: #aaa;
+width: 50%;
+display: block;
+text-align: right;}
+
+header h2 span a {margin-left: 1em}
+
 .smallMargin {margin-bottom: 0.66em}
+.tinyMargin {margin-bottom: 0.33em}
 
 .lightText {color: rgb(130, 130, 148)}
 
@@ -193,8 +221,8 @@ h4 {color: #898989;font-size: 0.75em;line-height: 1.33em}
 
 h5 {font-size: 0.77em;margin: 0;padding: 0.33em 0;color: #888}
 
-p a, .button {
-  color: rgba(0,0,255,0.65);
+p a, h5 a, h2 a, .button {
+  color: inherit;
   text-decoration: underline;
 }
 
@@ -210,7 +238,6 @@ button {
 button.text {
   background: none;
   border: none;
-  font-size: 0.77em;
   color: #888;
   outline: none;
   text-decoration: underline;
@@ -270,22 +297,33 @@ button.text {
 header h2 {color: red}
 
 ul.friendList {
-  padding: 1em 0;
+  padding: 1em 0 2em;
+  min-height: 6em;
+  color: #aaa
 }
 ul.friendList:before {
-  content: "";
+  content: "Analyzing your friends...";
   position: absolute;
-  top: 1em;
-  left: -2em;
+  top: 4em;
+  left: 33%;
   background: url('images/spinner.gif') no-repeat 0 0;
   background-size: 1.33em;
-  width: 1.33em;
-  height: 1.33em
+  line-height: 1.33em;
+  height: 1.33em;
+  padding-left: 1.66em
 }
 
 ul.friendList.finished:before {display: none;}
 
-ul.friendList li:hover {background: rgba(0,0,0,0.05);}
+ul.friendList li:hover {
+  opacity: 0.95;
+  background: rgba(0,0,0,0.05);
+}
+
+ul.friendList li:active {
+  position: relative;
+  top: 1px;
+}
 
 ul.friendList li {
   list-style-type: none;

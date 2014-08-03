@@ -25,7 +25,12 @@ function signUp () {
       type: "POST",
       url: '/lookingFor',
       data: JSON.stringify(preference),
-      success: function(){},
+      success: function(){
+        console.log('Succeeded!')
+      },
+      error: function(){
+        console.log('Post to save user preference failed.')
+      },
       contentType : 'application/json',
       dataType: 'json'
     });

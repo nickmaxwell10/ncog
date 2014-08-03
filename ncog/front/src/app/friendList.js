@@ -20,8 +20,6 @@ var friendList = (function () {
 
   function fetch () {
 
-    $('.friendList').text('Fetching your friends.')
-
     $.ajax({
         url: '/getFriends',
         type: 'GET',
@@ -48,11 +46,6 @@ var friendList = (function () {
 
         }
     });
-
-    $.get( "/friends", function(data) {
-
-    });
-
   }
 
   function render () {
@@ -72,10 +65,9 @@ var friendList = (function () {
       html += template;
     }
 
-    $('.friendList').html(html);
-
-    $('.friendList').addClass('finished');
-    
+    $('.friendList')
+      .html(html)
+      .addClass('finished');
   }
 
   function getByID (id) {
@@ -89,42 +81,3 @@ var friendList = (function () {
   return {init: init}
 
 }());
-
-var fakeNames = [
-  'Christen Fandel',
-  'Twyla Ronald',
-  'Sheri Carmona',
-  'Joleen Hausner',
-  'Margret Deibert',
-  'Harriet Hiler',
-  'Miguel Borgeson',
-  'Jamar Nipper',
-  'Elias Stufflebeam',
-  'Keira Duenas',
-  'Leora Motz',
-  'Fabian Gatson',
-  'Vilma Mcafee',
-  'Christine Garand',
-  'Allegra Ivers',
-  'Brenda Irwin',
-  'Tatyana Vandergriff',
-  'Tangela Jenny',
-  'Darleen Gregory',
-  'Eloy Vanduyne'
-], fakeFriends = (function makeFakeFriends () {
-
-  var list = {};
-
-  for (var i in fakeNames) {
-    list[i] = {
-      name: fakeNames[i],
-      id: [i],
-      picture: 'images/samples/' + i + '.jpg',
-      score: Math.round(Math.random()*100)
-    }
-  }
-
-  return list
-}());
-
-console.log(fakeFriends);
