@@ -2,6 +2,8 @@ import scipy
 from scipy.stats import norm
 import unirest
 
+from datetime import datetime
+
 FEAMALE = 1
 MALE = 0;
 
@@ -58,25 +60,30 @@ def calculate_score_one_side(messages, gender=MALE):
 		try:
 			if message['message']:
 				print "IM PRINTING THIS: ", message['message']
-				classification = Unirest.post("https://japerk-text-processing.p.mashape.com/sentiment/",
+				classification = unirest.post("https://japerk-text-processing.p.mashape.com/sentiment/",
 				  headers={"X-Mashape-Key": "PKPHwy5CTDmshw6wMcXOfPCMnNoGp1zre5QjsnHCyoRSG61gYa"},
 				  params={"language": "english", "text": message['message']}
 				)
 
-				pos_score =  classification['probability']['pos']
+				print 'CLASSIFICATION BODY: ' + str(classification.body)
+				pos_score =  classification.body['probability']['pos']
 				total_pos_score = total_pos_score + pos_score
 
 				len_score = calculate_length_score(msg.length)
 				total_len_score = total_len_score + len_score
 
-		except:
-			print 'fail!'
-			pass
+		except Exception, err:
+			print Exception, err
 
 		previousMessage = message
 
-	avg_pos_score = total_pos_score / len(messages)
-	avg_len_score = total_len_score / len(messages)
+	avg_pos_score = 0
+	if len(messages):
+		avg_pos_score = total_pos_score / len(messages)
+
+	avg_len_score = 0
+	if len(messages):
+		avg_len_score = total_len_score / len(messages)
 
 	return {
 		"pos": avg_pos_score,
@@ -94,8 +101,8 @@ def calculate_response_rate(messages):
 	other_total_diff = 0
 	other_total_switch = 0
 
-	user_last_date = 0
-	other_last_date = 0
+	user_last_date = datetime.today()
+	other_last_date = datetime.today()
 
 	to_me = False
 	first = True
@@ -115,12 +122,12 @@ def calculate_response_rate(messages):
 			else:
 				if message['to_me'] != to_me:
 					if to_me:
-						diff = (message['date'] - user_last_date).total_seconds()
+						diff = secondsInTimeDelta((message['date'] - user_last_date))
 						other_last_date = message['date']
 						other_total_diff = other_total_diff + diff
 						other_total_switch = other_total_switch + 1
 					else:
-						diff = (message['date'] - other_last_date).total_seconds
+						diff = secondsInTimeDelta(message['date'] - other_last_date)
 						user_last_date = message['date']
 						user_total_diff = user_total_diff + diff
 						user_total_switch = user_total_switch + 1
@@ -147,7 +154,9 @@ def calculate_response_rate(messages):
 		"other" : other_total
 	}
 
-
+def secondsInTimeDelta(td):
+	return float((td.microseconds +
+                      (td.seconds + td.days * 24 * 3600) * 10**6)) / 10**6
 
 
 

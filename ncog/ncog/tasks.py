@@ -39,6 +39,7 @@ def breadthlooper( inbox, user, facebook):
 		other_id = None
 		list_to = []
 		list_from = []
+		combined_list = []
 		if 'comments' in conversation and 'data' in conversation['comments']:
 					thread_participants = conversation['to']['data']
 					if (len(thread_participants) == 2):
@@ -67,11 +68,6 @@ def breadthlooper( inbox, user, facebook):
 											]
 										}
 										)
-						
-
-						list_to.append(scoreThreadMe(str(user.facebook_id), str(other_id)))
-						list_from.append(scoreThreadYou(str(user.facebook_id), str(other_id)))
-						combined_list.append(combinedThread(str(user.facebook_id), str(other_id)))
 						
 						for comment in conversation['comments']['data']:
 
@@ -102,6 +98,10 @@ def breadthlooper( inbox, user, facebook):
 											"date": date_object,
 										}
 										db.messages.insert(message)
+
+						list_to = scoreThreadMe(str(user.facebook_id), str(other_id))
+						list_from = scoreThreadYou(str(user.facebook_id), str(other_id))
+						combined_list = combinedThread(str(user.facebook_id), str(other_id))
 
 						conversation_score = calculate_scores(combined_list, list_to, list_from, user.facebook_id, other_id)
 						db.conversation_score.insert(conversation_score)
@@ -150,7 +150,7 @@ def scoreThreadMe(user_id, other_id):
 	for message in messages:
 		to_return.append(message)
 
-	print "IN SCORE THREAD ME: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
+	print "IN SCORE THREAD ME: " + str(len(to_return)) + " Other:  " +  str(other_id) + " User: " + str(user_id)
 	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	
@@ -167,7 +167,7 @@ def scoreThreadYou(user_id, other_id):
 		print "match"
 		to_return.append(message)
 
-	print "IN SCORE THREAD YOU: " + str(len(to_return)) + " From:  " +  str(other_id) + " To: " + str(user_id)
+	print "IN SCORE THREAD YOU: " + str(len(to_return)) + " Other:  " +  str(other_id) + " User: " + str(user_id)
 	print "OTHER TYPE " + str(type(other_id)) + " USER TYPE: " + str(type(user_id))
 
 	return(to_return)
