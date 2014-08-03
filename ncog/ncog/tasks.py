@@ -53,9 +53,25 @@ def breadthlooper( inbox, user, facebook):
 					if (len(thread_participants) == 2):
 						
 						for participant in thread_participants:
-							participant = int(participant['id'])
-							if (user.facebook_id != participant):
-								other_id = participant
+							participant_id = int(participant['id'])
+							if (user.facebook_id != participant_id):
+								other_id = participant_id
+								if db.user_friends.find_one({"user_id": user.facebook_id}):
+									db.user_friends.update(
+										{"user_id": user.facebook_id},
+										{"$addToSet" : {"friends" : {"user_id": other_id, "name": participant['name']}}}
+										)
+								else:
+										db.user_friends.insert({
+											"user_id": user.facebook_id,
+											"friends" : [
+												{
+												"user_id": other_id, 
+												"name": participant['name']
+												}
+											]
+										}
+										)
 								
 							#print "user id " , user.faceid 
 						#individual converation loop
