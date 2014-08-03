@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^$', 'core.views.login', name='login'),
     url(r'^home/$', 'core.views.home', name='home'),
+    url(r'^friends/$', 'core.views.friends', name='friends'),
 
     #Facebook
     (r'^facebook/', include('django_facebook.urls')),

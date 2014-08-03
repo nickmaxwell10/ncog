@@ -47,6 +47,7 @@ def breadthlooper( inbox, user, facebook):
 
 	
 	to_return = ""
+	user_friends = []
 	for conversation in inbox['data']:
 		if 'comments' in conversation and 'data' in conversation['comments']:
 					thread_participants = conversation['to']['data']
@@ -80,11 +81,9 @@ def breadthlooper( inbox, user, facebook):
 						for comment in conversation['comments']['data']:
 
 							if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
-									if int(comment['from']['id']) == user.facebook_id:
-										
-										date_object = datetime.strptime(comment['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
-										print type(date_object)
+									date_object = datetime.strptime(comment['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
 
+									if int(comment['from']['id']) == user.facebook_id:
 										message = {
 											"user_id": user.facebook_id,
 											"to_id": other_id,
@@ -97,9 +96,7 @@ def breadthlooper( inbox, user, facebook):
 										db.messages.insert(message)
 										message_total = message_total + 1
 										
-									
 									else:
-										
 										message = {
 											"user_id": user.facebook_id,
 											"to_id": user.facebook_id,
@@ -123,7 +120,14 @@ def breadthlooper( inbox, user, facebook):
 
 	return inbox
 
-#def depthlooper( user, facebook, url):
-	#print facebook.get(url)
+def getFriends(user_id):
+	user_friend = db.user_friends.find_one({"user_id":user_id})
+	friends = []
+	if user_friend:
+		friends = user_friend['friends']
+
+	return friends
+
+
 
 
