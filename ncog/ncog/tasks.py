@@ -76,21 +76,18 @@ def breadthlooper( inbox, user, facebook):
 											]
 										}
 										)
-								
-							#print "user id " , user.faceid 
-						#individual converation loop
-						message_total = 0
-						#for conversation in inbox['paging']
-						thread_list.append(scoreThreadMe(user.facebook_id, other_id))
-						thread_list.append(scoreThreadYou(user.facebook_id, other_id))
+						
+						#thread_list.append(scoreThreadMe(user.facebook_id, str(other_id)))
+						#thread_list.append(scoreThreadYou(user.facebook_id, str(other_id)))
+						thread_list.append(combinedThread(str(user.facebook_id), str(other_id)))
 						for comment in conversation['comments']['data']:
 
 							if 'from' in comment and 'id' in comment['from'] and 'id' in comment and 'message' in comment and 'created_time' in comment:
 									date_object = datetime.strptime(comment['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
-
+									print "running db writes with new conversions"
 									if int(comment['from']['id']) == user.facebook_id:
 										message = {
-											"user_id": user.facebook_id,
+											"user_id":user.facebook_id,
 											"to_id": other_id,
 											"to_me" : False,
 											"from_id": comment['from']['id'],
@@ -99,9 +96,7 @@ def breadthlooper( inbox, user, facebook):
 											"date": date_object,
 										}
 										db.messages.insert(message)
-										message_total = message_total + 1
-										print "commentasdasda is " , type( comment['from']['id'])
-										
+
 										
 									else:
 										message = {
@@ -114,23 +109,16 @@ def breadthlooper( inbox, user, facebook):
 											"date": date_object,
 										}
 										db.messages.insert(message)
-										
-										
-										#thread_score = scoreThread(user.facebook_id, other_id)
-						
-						#if message_total == 25:
-							#url = conversation['comments']['paging']['next']
-							#url = url.split("v2.0")[1]
-							
-							#depthlooper(inbox, user, facebook, url)
-						
+
 
 	db.user_friends.update(
 							{"user_id": user.facebook_id},
-							{"$set": { "status": "complete" }}
-						)
-	print "calling scoreThread now"	
+							{"$set": { "status": "complete" }})
+	
 	return thread_list
+
+
+
 def getFriends(user_id):
 	user_friend = db.user_friends.find_one({"user_id":user_id})
 	if user_friend:
@@ -143,43 +131,59 @@ def getFriends(user_id):
 			return "processing"
 	else:
 		return "processing"
+
+
 def scoreThreadMe(user_id, other_id):
-	print "scoreThreadMe printing"
-	print "score thread other_id" , type(other_id)
+	#pulls messages from thread of other person to user
 
 	to_return = []
-	messages = db.messages.find({ "from_id":unicode(other_id)}
-						)
-	
-							 					
-							
+	messages = db.messages.find({ "from_id":other_id})
+								
 	for message in messages:
-		to_return.append(str(message))
-
-		print "message type " ,type(message)
-		print "to_return = "  , to_return
-	print (to_return)
+		to_return.append(message)
+	print "inserting to"
+	db.conversation_score.insert(
+									{
+										"user_id": user_id,
+										"other_id": other_id,
+										"user_score" : 0.5,
+										"other_score": 0.1,
+													
+											})
 	return(to_return)
 
 
 
 def scoreThreadYou(user_id, other_id):
-	print "scoreThreadMe printing"
-	print "score thread other_id" , type(other_id), other_id
-
+	#pulls messages from thread of user to other person
+	print "running scoreThreadYou"
 	to_return = []
-	messages = db.messages.find({ "to_id": other_id}
-						)
-	
-							 					
-							
+	messages = db.messages.find({ "to_id": other_id })
+				
 	for message in messages:
-		to_return.append(str(message))
-
-		print "message type " ,type(message)
-		print "to_return = "  , to_return
-	print (to_return)
+		print "match"
+		to_return.append(message)
 	return(to_return)
+
+def combinedThread(user_id, other_id):
+	print "combinedThread running" 
+	to_return = []
+
+
+
+	messages = db.messages.find(
+							{"$or": [
+								{ "to_id": other_id},
+								{ "from_id" : other_id},
+									]
+								})
+				
+	for message in messages:
+
+		print message
+		to_return.append(message)
+	return(to_return)
+
 
 
 
