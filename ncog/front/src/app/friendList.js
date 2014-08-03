@@ -25,18 +25,17 @@ var friendList = (function () {
         type: 'GET',
         success: function(data){ 
 
-          alert('success!');
-
-          data = JSON.parse(data);
-
-          console.log(data);
-
           if (data.status === 'complete') {
+
+            console.log('complete!');
 
             friendsList = data.friends;
 
+            console.log(data);
+
             for (var i in friendsList) {
-              friendsList[i].picture = 'http://graph.facebook.com/' + friendsList[i].id + '/picture?type=square';
+              friendsList[i].score = Math.round(Math.random()*100);
+              friendsList[i].picture = 'http://graph.facebook.com/' + friendsList[i].user_id + '/picture?type=large';
             };
 
             render();
