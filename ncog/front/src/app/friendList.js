@@ -61,28 +61,26 @@ var friendList = (function () {
         type: 'GET',
         success: function(data){ 
 
-          if (data.status === 'complete') {
+          console.log(data.scores);
+          console.log('complete!');
 
-            console.log('complete!');
+          for (var i in data.scores) {
 
-            for (var i in data.scores) {
+            var friendID = data.scores[i].other_id,
+                friendScore = data.scores[i].other_score;
 
-              var friendID = data.scores[i].other_id,
-                  friendScore = data.scores[i].other_score;
+            for (var i in friendsList) {
 
-              for (var i in friendsList) {
+              if (friendsList[i].id == friendID) {
+                  friendsList[i].score = friendScore;
+              }
+            };
+          }
 
-                if (friendsList[i].id == friendID) {
-                    friendsList[i].score = friendScore;
-                }
-              };
-            }
+          render();
 
-            render();
+          clearInterval(pollScores);
 
-            clearInterval(pollScores);
-
-          }          
         },
         error: function(data) {}
     });
