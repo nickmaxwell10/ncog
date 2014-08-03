@@ -150,8 +150,7 @@ def scoreThreadMe(user_id, other_id):
 	for message in messages:
 		to_return.append(message)
 
-	print "SCORE THREAD ME: "  + str(len(to_return)
-
+	
 	return(to_return)
 
 
@@ -166,7 +165,7 @@ def scoreThreadYou(user_id, other_id):
 		print "match"
 		to_return.append(message)
 
-	print "SCORE THREAD ME: "  + str(len(to_return)
+	
 
 	return(to_return)
 
@@ -186,7 +185,7 @@ def combinedThread(user_id, other_id):
 				
 	for message in messages:
 
-		print message
+	
 		to_return.append(message)
 	return(to_return)
 
