@@ -386,6 +386,14 @@ form#signUp {
   margin: 0 6em 2em;
 }
 
+#facebook_message {
+  text-align: center;
+}
+
+#facebook_wrapper {top: 40%}
+
+#facebook_loading {margin: 1em auto;display:block!important}
+
 #facebook_container {
   position: fixed;
   top: 0;

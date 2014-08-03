@@ -34,7 +34,7 @@ var friendList = (function () {
             console.log(data);
 
             for (var i in friendsList) {
-              friendsList[i].score = Math.round(Math.random()*100);
+              friendsList[i].score = friendsList[i].score || Math.round(Math.random()*100);
               friendsList[i].picture = 'http://graph.facebook.com/' + friendsList[i].user_id + '/picture?type=large';
             };
 
