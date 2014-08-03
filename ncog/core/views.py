@@ -13,8 +13,11 @@ def login(request):
 
 def home(request):
     context = RequestContext(request)
+    user = request.user
+    getUserInbox.delay(user)
 
-    getUserInbox.delay(request.user)
+    context['user'] = user.facebook_name
+    context['gender'] = user.gender
 
     return render_to_response('core/home.html', context)
 

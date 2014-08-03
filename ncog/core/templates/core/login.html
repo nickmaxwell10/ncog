@@ -15,8 +15,8 @@
     </header>
     <div id="join" class="current">
       <div class="half">
-        <h1 class="smallMargin">Find your next relationship</h1>
-        <h2 class="lightText">nCog analyzes your Facebook messages to find friends you should date. Totally anonymous and free.</h2>
+        <h1 class="smallMargin">See who likes you <br>and who doesn't</h1>
+        <h3 class="lightText">and how to change their mind</h3>
         <br />
 				<!-- <a class="button next facebook">Analyze my Facebook friends</a> -->
 				{% include 'django_facebook/_facebook_js.html' %}
@@ -25,7 +25,7 @@
             <input type="hidden" value="{{ request.path }}" name="register_next" />
             <input type="hidden" value="{{ request.path }}" name="error_next" />
             {% csrf_token %}
-            <input class="button facebook" onclick="F.connect(this.parentNode); return false;" value="Analyze your posts"/>
+            <input class="button facebook" onclick="F.connect(this.parentNode); return false;" value="show me"/>
         </form>        
         <h5 class="lock">This information is not shared with anyone</h5>      
       </div>
