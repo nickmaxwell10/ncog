@@ -1,4 +1,4 @@
-var friend = (function(){
+var friend = (function () {
 
   var tips = {
     80: [
@@ -33,10 +33,12 @@ var friend = (function(){
       'Not working out here.']
   };
 
-});
-
 function render (friend) {
   
+  console.log(friend);
+  
+  var message;
+
   if (friend.score < 20) {
     message = tips[0][Math.floor(Math.random()*5)]
   }
@@ -57,14 +59,15 @@ function render (friend) {
     message = tips[80][Math.floor(Math.random()*5)]
   }
 
-  var html = 
-    '<h1>' + friend.name + '</h1>' +
+  var html = '<h1>' + friend.name + '</h1>' +
     '<img src="' + friend.picture + '" />' +
     '<h2>Message: ' + message + '</h2>';
     '<h2>Score: ' + friend.score + '</h2>';
   
   $('#friendInfo').html(html);
 
+};
 
-  return {render: render}
-}
+  return {render: render};
+
+}());
