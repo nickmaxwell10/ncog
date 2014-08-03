@@ -47,6 +47,8 @@ body > div {
 body > div.next {
   left: 100%;
   right: auto;
+  position: fixed;
+  margin-top: 2em;
 }
 
 body > div.current {
@@ -57,6 +59,7 @@ body > div.current {
 body > div.previous {
   right: auto;
   left: -100%;
+  position: absolute;
 }
 
 body> div > div,

@@ -1,19 +1,34 @@
+<!DOCTYPE html>
 <html>
-	<head>
-	</head>
-	<body>
-		<br />
-		<br />
-		<br />
-		<link href="{{ STATIC_URL }}django_facebook/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
-{% include 'django_facebook/_facebook_js.html' %}
-
-		<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-		    <input type="hidden" value="{% url 'home' %}" name="next" />
-		    <input type="hidden" value="{{ request.path }}" name="register_next" />
-		    <input type="hidden" value="{{ request.path }}" name="error_next" />
-		    {% csrf_token %}
-		    <input onclick="F.connect(this.parentNode); return false;" type="image" src="{{ STATIC_URL }}django_facebook/images/facebook_login.png" />
-		</form>
-	</body>
+  <head>
+    <meta charset="utf-8">
+    <title>nCog - relationship analytics</title>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link href="{{ STATIC_URL }}django_facebook/css/facebook.css" type="text/css" rel="stylesheet" media="all" />    
+    <script src="/public/css/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <h2> nCog</h2>
+     <hr> 
+    </header>
+    <div id="join" class="current">
+      <div class="half">
+        <h1 class="smallMargin">Find your next relationship</h1>
+        <h2 class="lightText">nCog analyzes your Facebook messages to find friends you should date. Totally anonymous and free.</h2>
+        <br />
+				<!-- <a class="button next facebook">Analyze my Facebook friends</a>-->
+				{% include 'django_facebook/_facebook_js.html' %}
+        <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+            <input type="hidden" value="{% url 'home' %}" name="next" />
+            <input type="hidden" value="{{ request.path }}" name="register_next" />
+            <input type="hidden" value="{{ request.path }}" name="error_next" />
+            {% csrf_token %}
+            <input onclick="F.connect(this.parentNode); return false;" type="image" src="{{ STATIC_URL }}django_facebook/images/facebook_login.png" />
+        </form>        
+        <h5 class="lock">This information is not shared with anyone</h5>      
+      </div>
+    </div>
+  </body>
 </html>
